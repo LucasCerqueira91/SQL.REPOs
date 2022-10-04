@@ -1,35 +1,53 @@
-
-
-CREATE DATABASE Vehicles;
-
-
-
-
+--CREATE DATABASE Vehicles;
+ DROP TABLE Vehicles;
 CREATE TABLE Vehicles (
-  ID INT PRIMARY KEY,
-  Color_Vhc VARCHAR(40),
-  Year_Vhc INT,
-  Price_Vhc MONEY,
-  Qantity_Vhc INT,
-  salary INT,
-  Engine_ID INT,
-  Brand_ID INT
-
+  ID INT PRIMARY KEY IDENTITY (1,1),
+  Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL,
+  Engine_ID INT NOT NULL,
+  Brand_ID INT NOT NULL
 );
 
 CREATE TABLE Moto (
-  ID INT PRIMARY KEY,
-  Moto_name VARCHAR(40),
-  
+  ID INT PRIMARY KEY IDENTITY(1,1),
+  Moto_name VARCHAR(40) NOT NULL,
+  Engine INT NOT NULL,
+  Brand VARCHAR (40) NOT NULL
 );
 
-CREATE TABLE Car (
-  ID INT PRIMARY KEY,
-  Car_name VARCHAR(40),
-  
+  CREATE TABLE Car (
+  ID INT PRIMARY KEY IDENTITY(1,1),
+  Car_name VARCHAR(40) NOT NULL,
+  Engine FLOAT NOT NULL,
+  Brand VARCHAR (40) NOT NULL
 );
 
-ALTER TABLE employee
+--CREATE TABLE Engine (
+--Engine_ID INT PRIMARY KEY IDENTITY(1,1),
+--Motor_engine FLOAT NOT NULL
+);
+CREATE TABLE Brand (
+Brand_ID INT PRIMARY KEY IDENTITY(1,1),
+Brand_name VARCHAR(40) NOT NULL
+);
+
+-- Car
+INSERT INTO Car VALUES('Porsche Cayenne');
+
+-- Moto
+INSERT INTO Car VALUES('BMW F800');
+
+ALTER TABLE Moto
+ADD Engine INT NOT NULL,
+   Brand VARCHAR (40) NOT NULL
+
+ALTER TABLE Car
+ADD Engine FLOAT NOT NULL,
+    Brand VARCHAR (40) NOT NULL
+
+ALTER TABLE Moto
 ADD FOREIGN KEY(branch_id)
 REFERENCES branch(branch_id)
 ON DELETE SET NULL;
