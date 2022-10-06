@@ -1,5 +1,5 @@
 --CREATE DATABASE Vehicles;
- DROP TABLE Vehicles;
+ DROP TABLE Moto;
 CREATE TABLE Vehicles (
   ID INT PRIMARY KEY IDENTITY (1,1),
   Color_Vhc VARCHAR(40) NOT NULL,
@@ -14,7 +14,11 @@ CREATE TABLE Moto (
   ID INT PRIMARY KEY IDENTITY(1,1),
   Moto_name VARCHAR(40) NOT NULL,
   Engine INT NOT NULL,
-  Brand VARCHAR (40) NOT NULL
+  Brand VARCHAR (40) NOT NULL,
+  Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL
 );
 
   CREATE TABLE Car (
@@ -40,13 +44,17 @@ INSERT INTO Car VALUES('Porsche Cayenne');
 INSERT INTO Car VALUES('BMW F800');
 
 ALTER TABLE Moto
-ADD Engine INT NOT NULL,
-   Brand VARCHAR (40) NOT NULL
+ADD Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL;
 
 ALTER TABLE Car
-ADD Engine FLOAT NOT NULL,
-    Brand VARCHAR (40) NOT NULL
-
+ADD Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL;
+  
 ALTER TABLE Moto
 ADD FOREIGN KEY(branch_id)
 REFERENCES branch(branch_id)
@@ -81,13 +89,17 @@ CREATE TABLE branch_supplier (
   FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE CASCADE
 );
 
+SELECT * FROM Moto
 
 -- -----------------------------------------------------------------------------
 
--- Corporate
-INSERT INTO employee VALUES(100, 'David', 'Wallace', '1967-11-17', 'M', 250000, NULL, NULL);
+-- Insert Values
+INSERT INTO Moto VALUES('BMW F800', 800 , 'BMW', 'Dark Blue', 2023, 29000, 18);
 
 INSERT INTO branch VALUES(1, 'Corporate', 100, '2006-02-09');
+
+--UPDATE Table_Name SET Column_Name = New_Value WHERE Condition;  
+UPDATE Moto SET Color_Vhc = 'Blue' WHERE ID = 4;  
 
 UPDATE employee
 SET branch_id = 1
