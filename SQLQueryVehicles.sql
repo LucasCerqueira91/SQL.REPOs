@@ -1,3 +1,87 @@
+  --Create a database named “Vehicles”;
+  CREATE DATABASE Vehicles;
+   --Create all required tables based on the class structure design;
+   --All records to all existing table to allow record collection;
+
+  --DROP TABLE Moto;
+  
+  CREATE TABLE Vehicles (
+  ID INT PRIMARY KEY IDENTITY (1,1),
+  Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL,
+  Engine_ID INT NOT NULL,
+  Brand_ID INT NOT NULL
+);
+
+  CREATE TABLE Moto (
+  ID INT PRIMARY KEY IDENTITY(1,1),
+  Moto_name VARCHAR(40) NOT NULL,
+  Engine INT NOT NULL,
+  Brand VARCHAR (40) NOT NULL,
+  Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL
+);
+
+  CREATE TABLE Car (
+  ID INT PRIMARY KEY IDENTITY(1,1),
+  Car_name VARCHAR(40) NOT NULL,
+  Engine FLOAT NOT NULL,
+  Brand VARCHAR (40) NOT NULL
+  Brand VARCHAR (40) NOT NULL,
+  Color_Vhc VARCHAR(40) NOT NULL,
+  Year_Vhc INT NOT NULL,
+  Price_Vhc MONEY NOT NULL,
+  Qantity_Vhc INT NOT NULL
+);
+
+-- Car
+INSERT INTO Car VALUES('Porsche Cayenne');
+
+-- Moto
+INSERT INTO Car VALUES('BMW F800');
+
+--The script must display all automobiles in the Database;
+SELECT * FROM Car;
+
+--The script must display all motorcycles in the Database;
+SELECT * FROM Moto;
+
+--The script must display all automobiles and motorcycles in the Database. Display only the
+--common information;
+SELECT *
+FROM Car
+CROSS JOIN Moto 
+
+
+--The script must display all automobiles and motorcycles in the Database. Display all the
+--information even if there is no relation in both tables;
+ 
+SELECT * FROM Car CROSS JOIN Moto; 
+
+--8. The script must display all earth-bound vehicles and related information in the Database.
+--This means not to only display the information of the earth-bound vehicles table but all
+--directly related (downwards relation). Display only the common information;
+--9. The script must display all earth-bound vehicles and related information in the Database.
+--This means not to only display the information of the earth-bound vehicles table but all
+--directly related (downwards relation). Display all the information that is considered
+--relevant;
+--10. The script is similar to the previous script but consider all existing types of vehicles;
+--11. The script based on the last requested script that receives a string input and searches for
+--matching record based on the type of the vehicle;
+--12. The script is similar to the previous script but consider and common columns as a possible
+--search field;*/
+
+
+
+
+
+
+
+
 --CREATE DATABASE Vehicles;
  DROP TABLE Moto;
 CREATE TABLE Vehicles (
