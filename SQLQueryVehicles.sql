@@ -3,6 +3,20 @@
    --Create all required tables based on the class structure design;
    --All records to all existing table to allow record collection;
 
+   CREATE TABLE Subject_Name (
+  ID INT PRIMARY KEY IDENTITY (1,1),
+  Name_Subject VARCHAR(40) NOT NULL,
+  ID_Class INT NOT NULL
+);
+
+CREATE TABLE Classes (
+ID INT PRIMARY KEY IDENTITY(1,1),
+DataTime_Class DATETIME NOT NULL,
+Teacher_ID INT NOT NULL,
+Student_ID INT NOT NULL,
+Subject_ID INT NOT NULL);
+  
+  
   --DROP TABLE Moto;
   
   CREATE TABLE Vehicles (
