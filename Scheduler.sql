@@ -31,18 +31,103 @@ Tasks:
 
 */
 
+USE Scheduler
+USE Vehicles
+CREATE DATABASE Scheduler
 
+DROP DATABASE Scheduler
 
-ALTER TABLE Student
-ADD Email_Student VARCHAR(100) NOT NULL,
+DROP TABLE  Student
+DROP TABLE  Student_Booked_Classes
+DROP TABLE  Classes_Teacher_Subject
+DROP TABLE Teacher, Subjects; 
+
+CREATE TABLE Student (
+ID INT PRIMARY KEY IDENTITY,
+Student_Name VARCHAR (100) NOT NULL,
+Email_Student VARCHAR(100) NOT NULL,
 NIF_Student INT NOT NULL,
 Adress_Student Varchar (100) NOT NULL,
-Student_Phone INT NOT NULL ;
+Student_Phone INT NOT NULL);
+
+CREATE TABLE Classes_Teacher_Subject (
+ID INT PRIMARY KEY IDENTITY,
+FK_SubjectID INT NOT NULL,
+FK_TeacherID INT NOT NULL,
+);
+
+CREATE TABLE Booked_Classes (
+	 ID INT IDENTITY(1,1) NOT NULL,
+	 ONsite_Class VARCHAR(70) NOT NULL,
+	 Remote_Class VARCHAR(100) NOT NULL,
+	 DateTime_Classes DATETIME NOT NULL,
+	 FK_TeacherID INT NOT NULL,
+	 FK_SubjectID INT NOT NULL);
+	 
+CREATE TABLE Student_Booked_Classes (
+ID INT IDENTITY(1,1) NOT NULL,
+FK_StudentID INT NOT NULL,
+FK_Booked_Classes INT NOT NULL);
+
+CREATE TABLE Teacher (
+ID INT IDENTITY,
+Name_Teacher VARCHAR (100) NOT NULL,
+Email_Teacher VARCHAR(100) NOT NULL,
+NIF_Teacher INT NOT NULL,
+Adress_Teacher Varchar (100) NOT NULL,
+Phone_Teacher INT NOT NULL);
+
+CREATE TABLE Subjects (
+ID INT PRIMARY KEY IDENTITY,
+Name_Subject VARCHAR (100) NOT NULL,
+Subject_Level INT NOT NULL);
+
+EXEC sp_columns Student;  
+
+SELECT * FROM Student 
+
+ALTER TABLE Booked_Classes ADD PRIMARY KEY (ID);
 
 ALTER TABLE Classes 
 ADD FK_TeacherID INT NOT NULL, 
 FK_StudentID INT NOT NULL, 
 FK_SubjectID INT NOT NULL;
+
+ALTER TABLE Classes_Teacher_Subject 
+ADD CONSTRAINT Classes_Teacher_Subject_FK_SubjectID  UNIQUE (FK_SubjectID) , 
+CONSTRAINT Classes_Teacher_Subject_FK_TeacherID UNIQUE (FK_TeacherID);
+
+ALTER TABLE Student_Booked_Classes 
+ADD CONSTRAINT Student_Booked_Classes_FK_StudentID  UNIQUE (FK_StudentID) ,
+CONSTRAINT Student_Booked_Classes_FK_Classes_Teacher_SubjectID 
+UNIQUE (FK_Classes_Teacher_SubjectID);
+
+ALTER TABLE Booked_Classes
+ADD FOREIGN KEY (FK_TeacherID) REFERENCES Teacher(ID);
+
+ALTER TABLE Student_Booked_Classes
+ADD FOREIGN KEY (FK_StudentID) REFERENCES Student(ID);
+
+ALTER TABLE Student_Booked_Classes
+ADD FOREIGN KEY (FK_Booked_Classes) REFERENCES Booked_Classes(ID);
+
+ALTER TABLE Booked_Classes ADD CONSTRAINT FK_TeacherID
+FOREIGN KEY (FK_TeacherID) REFERENCES Teacher(ID);
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PersonOrder
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+ALTER TABLE Teacher ADD CONSTRAINT FK_Teacher_BookedClasses
+FOREIGN KEY (FK_TeacherID) REFERENCES Teacher(ID);
+
+ADD CONSTRAINT Student_Booked_Classes_FK_StudentID  UNIQUE (FK_StudentID) ,
+CONSTRAINT Student_Booked_Classes_FK_Classes_Teacher_SubjectID 
+UNIQUE (FK_Classes_Teacher_SubjectID);
+
+ALTER TABLE Teacher
+ADD CONSTRAINT UC_Email_T UNIQUE (Email_Teacher) , CONSTRAINT UC_NIF_T UNIQUE (NIF_Teacher);
+
 
 ALTER TABLE Teacher 
 ADD Name_Teacher VARCHAR (50) NOT NULL;
@@ -53,13 +138,11 @@ ALTER TABLE Teacher
 DROP COLUMN Teacher_Name
 
 
-CREATE TABLE Student_Booked_Classes (
-	 ID INT IDENTITY(1,1) NOT NULL,
-	 ONsite_Class VARCHAR(70) NOT NULL,
-	 Remote_Class VARCHAR(100) NOT NULL,
-	 DateTime_Classes DATETIME NOT NULL,
-	 FK_StudentID INT NOT NULL,
-	 FK_ClassesID INT NOT NULL);
+ALTER TABLE Student 
+DROP COLUMN Class_ID;
+
+
+
 
 
 	CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED ([Id] ASC)
