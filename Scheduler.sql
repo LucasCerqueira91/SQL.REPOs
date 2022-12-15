@@ -483,6 +483,110 @@ SELECT * FROM Subjects
 SELECT * FROM Student
 SELECT * FROM Student_Booked_Classes
 
+USE [Scheduler]
+GO
+
+INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (1
+           ,1)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (2
+           ,1)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (3
+           ,1)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (4
+           ,3)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (5
+           ,3)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (6
+           ,3)
+		  
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (8
+           ,4)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (1
+           ,7)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (2
+           ,7)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (3
+           ,7)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (4
+           ,9)
+
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (5
+           ,9)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (6
+           ,9)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (8
+           ,11)
+		   INSERT INTO [dbo].[Student_Booked_Classes]
+           ([FK_StudentID]
+           ,[FK_Booked_Classes])
+     VALUES
+           (9
+           ,11)
+		 
+
+
+GO
+
+SELECT * FROM Student_Booked_Classes
+SELECT * FROM Student
+SELECT * FROM Booked_Classes
+
 
 
 
