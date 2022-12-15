@@ -30,7 +30,7 @@ Tasks:
 7. Create the script that allow data DELETE, when required;
 
 */
-
+-- MODELING DATABASE
 USE Scheduler
 USE Vehicles
 CREATE DATABASE Scheduler
@@ -268,6 +268,8 @@ DROP COLUMN Teacher_Name
 ALTER TABLE Student 
 DROP COLUMN Class_ID;
 
+
+--INSERT DATA IN DATABASE
 USE [Scheduler]
 GO
 
@@ -289,6 +291,202 @@ GO
 SELECT * FROM Teacher;
 SELECT * FROM Subjects
 
+
+USE [Scheduler]
+GO
+
+INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 10:45:00'
+           ,3
+           ,1)
+
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 10:45:00'
+           ,5
+           ,3)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 10:45:00'
+           ,6
+           ,2)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 10:45:00'
+           ,7
+           ,3)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 10:45:00'
+           ,8
+           ,3)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 11:45:00'
+           ,1
+           ,4)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 11:45:00'
+           ,3
+           ,4)
+GO
+INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 11:45:00'
+           ,5
+           ,5)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 11:45:00'
+           ,6
+           ,5)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 11:45:00'
+           ,7
+           ,6)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 11:45:00'
+           ,8
+           ,6)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 11:45:00'
+           ,1
+           ,7)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 11:45:00'
+           ,3
+           ,7)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('SIM'
+           ,'NÃO'
+           ,'2023-01-20 11:45:00'
+           ,5
+           ,8)
+		   INSERT INTO [dbo].[Booked_Classes]
+           ([ONsite_Class]
+           ,[Remote_Class]
+           ,[DateTime_Classes]
+           ,[FK_TeacherID]
+           ,[FK_SubjectID])
+     VALUES
+           ('NÃO'
+           ,'SIM'
+           ,'2023-01-20 11:45:00'
+           ,6
+           ,8)
+SELECT * FROM Booked_Classes
+SELECT * FROM Teacher
+SELECT * FROM Subjects
+SELECT * FROM Student
+SELECT * FROM Student_Booked_Classes
+
+
+
+
+--EXEMPLE FOR HELP
 ORDER BY ASCI
 /*One-To-One*/
 CREATE TABLE [dbo].[Contatos] (
