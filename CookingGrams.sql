@@ -37,7 +37,7 @@ Dificulty_R NVARCHAR (15) NOT NULL,
   
   
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  USE CookingGrams;
+USE CookingGrams;
 USE Vehicles;
 DROP DATABASE CookingGrams;
 CREATE DATABASE CookingGrams;
@@ -87,13 +87,13 @@ FkRecipe_ID INT NOT NULL,
 FkCategory_ID INT NOT NULL);
 
 
-ALTER TABLE Favorite_Recipes ADD CONSTRAINT Favorite_Recipes_ID_Users
+ALTER TABLE Favorite_Recipe ADD CONSTRAINT Favorite_Recipes_ID_Users
 FOREIGN KEY (FkUser_ID) REFERENCES Users(ID);
 
-ALTER TABLE Favorite_Recipes ADD CONSTRAINT Favorite_Recipes_ID_Recipes
+ALTER TABLE Favorite_Recipe ADD CONSTRAINT Favorite_Recipes_ID_Recipes
 FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
 
-ALTER TABLE Favorite_Recipes ADD CONSTRAINT Favorite_Recipes_ID_Categories
+ALTER TABLE Favorite_Recipe ADD CONSTRAINT Favorite_Recipes_ID_Categories
 FOREIGN KEY (FkCategory_ID) REFERENCES Categories(ID);
 
 
@@ -106,6 +106,11 @@ FkRecipe_ID INT NOT NULL,
 FkIngredient_ID INT NOT NULL);
 
 ALTER TABLE Recipes ADD FkUser_ID INT NOT NULL
+
+ALTER TABLE Categories ADD FkRecipe_ID INT NOT NULL
+
+ALTER TABLE Categories ADD CONSTRAINT Categories_ID_Recipes
+FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
 
 ALTER TABLE Recipes_Ingredients ADD CONSTRAINT Recipes_ID_Recipes_Ingredients
 FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
@@ -122,32 +127,3 @@ Title_I NVARCHAR (40) NOT NULL,
 Quantity_I NVARCHAR (50) NOT NULL,
 Unit_I NVARCHAR (50) NOT NULL,
 Description_I NVARCHAR (800));
-
---Dificulty_R NVARCHAR (15) NOT NULL CHECK (Dificulty_R IN('Very Easy', 'Easy', 'Medium', 'Hard', 'Very Hard')), (OPTION WITH ENUMS)
-FkCategory_ID INT NOT NULL,
-PreparationTime NVARCHAR(40) NOT NULL);
-
-
-ALTER TABLE Recipes ADD CONSTRAINT Category_ID_Recipes
-FOREIGN KEY (FkCategory_ID) REFERENCES Categories(ID);
-
-CREATE TABLE Recipes_Ingredients (
-ID INT PRIMARY KEY IDENTITY,
-FkRecipes_ID INT NOT NULL,
-FkIngredients_ID INT NOT NULL);
-
-
-ALTER TABLE Recipes_Ingredients ADD CONSTRAINT Recipes_ID_Recipes_Ingredients
-FOREIGN KEY (FkRecipes_ID) REFERENCES Recipes(ID);
-
-ALTER TABLE Recipes_Ingredients ADD CONSTRAINT Ingredients_ID_Recipes_Ingredients
-FOREIGN KEY (FkIngredients_ID) REFERENCES Ingredients(ID);
-
-CREATE TABLE Ingredients (
-ID INT PRIMARY KEY IDENTITY,
-Title_I NVARCHAR (40) NOT NULL,
-Quantity_I NVARCHAR (50) NOT NULL,
-Unit_I NVARCHAR (50) NOT NULL,
-Description_I NVARCHAR (800));
-
-DROP TABLE Ingredients
