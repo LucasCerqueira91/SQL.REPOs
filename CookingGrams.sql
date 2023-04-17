@@ -1,14 +1,16 @@
-CREATE DATABASE Cookingrams
+CREATE DATABASE CookingGrams
 
 USE CookingGrams
 use Vehicles
 CREATE DATABASE CookingGrams
 
-DROP TABLE DATABASE CookingGrams;
+DROP TABLE Ratings
+
+DROP DATABASE Cookingrams;
 Difficulty Recipe_Favorite
 
 CREATE TABLE Categories (
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 Title_C NVARCHAR (50) NOT NULL,
 FkRecipe_ID INT NOT NULL
 );
@@ -22,40 +24,40 @@ FkRecipe_ID INT NOT NULL
 --FkCategory_ID INT NOT NULL); 
 
 CREATE TABLE Ingredients (
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 Name_I NVARCHAR (50));
 
 CREATE TABLE Ingredients_Description(
-ID INT PRIMARY KEY IDENTITY,
-Description_IDesc NVARCHAR (50) NOT NULL,
+ID INT PRIMARY KEY IDENTITY(1,1),
+Description_Ig NVARCHAR (50) NOT NULL,
 FKIngredient_ID INT NOT NULL,
 FkRecipe_ID INT NOT NULL,
 FkIngredients_Unit_Measurement_ID INT NOT NULL);  
 
 CREATE TABLE Ingredients_Unit_Measurement(
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 Quantity_ INT NOT NULL,
 Measurement_Unit NVARCHAR (15) NOT NULL CHECK (Measurement_Unit IN('Kg','Ml','Gr','Lts')));
 
-CREATE TABLE Ratings (
-ID INT PRIMARY KEY IDENTITY,
-Rating_U NCHAR (1) NOT NULL,
-Comment_U NVARCHAR(100) NULL,
-FkUser_ID INT NOT NULL,
-FkRecipe_ID INT NOT NULL
-);
+--CREATE TABLE Ratings (
+--ID INT PRIMARY KEY IDENTITY(1,1),
+--Rating_U NCHAR (1) NOT NULL,
+--Comment_U NVARCHAR(100) NULL,
+--FkUser_ID INT NOT NULL,
+--FkRecipe_ID INT NOT NULL
+--);
 
 CREATE TABLE Ratings (
 Id INT PRIMARY KEY IDENTITY(1,1),
 RatingValue INT NOT NULL CHECK (RatingValue BETWEEN 1 AND 5),
 Comment VARCHAR(255) NULL,
-UserId INT NOT NULL,
-RecipeId INT NOT NULL,
+FkUser_ID INT NOT NULL,
+FkRecipe_ID INT NOT NULL,
 Stars AS REPLICATE('*', RatingValue)
-)
+);
 
 CREATE TABLE Recipes_Favorite(
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 FkUser_ID INT NOT NULL,
 FkRecipe_ID INT NOT NULL,
 FkCategory_ID INT NOT NULL);
@@ -66,18 +68,19 @@ FkRecipe_ID INT NOT NULL);
 */
 
 CREATE TABLE Recipes (
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 Title_R NVARCHAR (100) NOT NULL,
 Description_R NVARCHAR(200) NOT NULL,
 PreparationMethod_R NVARCHAR(200) NOT NULL,
 PreparationTime NVARCHAR(50) NOT NULL,
 FkUser_ID INT NOT NULL);
+
 --FkCategory_ID INT NOT NULL,
 --FkRating_ID INT NOT NULL,
 --FkIngredients_Description_ID INT NOT NULL);
 
 CREATE TABLE Users (
-ID INT PRIMARY KEY IDENTITY,
+ID INT PRIMARY KEY IDENTITY(1,1),
 Name_U NVARCHAR (50) NOT NULL,
 Email_U NVARCHAR(50) NOT NULL,
 Password_U NVARCHAR(2000) NOT NULL,
@@ -113,11 +116,14 @@ FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
 ALTER TABLE Recipes_Favorite ADD CONSTRAINT Recipes_Favorite_ID_Categories
 FOREIGN KEY (FkCategory_ID) REFERENCES Categories(ID);
 
---ALTER TABLE Recipes ADD CONSTRAINT Category_ID_Recipes
---FOREIGN KEY (FkCategory_ID) REFERENCES Categories(ID);
-
 ALTER TABLE Recipes ADD CONSTRAINT Recipes_ID_Users
 FOREIGN KEY (FkUser_ID) REFERENCES Users(ID);
+
+ALTER TABLE Categories ADD CONSTRAINT Categories_ID_Recipes
+FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
+
+--ALTER TABLE Recipes ADD CONSTRAINT Category_ID_Recipes
+--FOREIGN KEY (FkCategory_ID) REFERENCES Categories(ID);
 
 --ALTER TABLE Recipes ADD CONSTRAINT Recipes_ID_Ratings
 --FOREIGN KEY (FkRating_ID) REFERENCES Ratings(ID);
@@ -125,12 +131,9 @@ FOREIGN KEY (FkUser_ID) REFERENCES Users(ID);
 --ALTER TABLE Recipes ADD CONSTRAINT Recipes_ID_Ingredients_Description
 --FOREIGN KEY (FkIngredients_Description_ID) REFERENCES Ingredients_Description(ID);
 
-ALTER TABLE Ingredients_Description DROP COLUMN FkIngredients_Description_ID INT NOT NULL
+--ALTER TABLE Ingredients_Description DROP COLUMN FkIngredients_Description_ID INT NOT NULL
 
-ALTER TABLE Recipes ADD FkIngredients_Description_ID INT NOT NULL;
-
-ALTER TABLE Categories ADD CONSTRAINT Categories_ID_Recipes
-FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
+--ALTER TABLE Recipes ADD FkIngredients_Description_ID INT NOT NULL;
 
 --ALTER TABLE Recipes_Ingredients ADD CONSTRAINT Recipes_ID_Recipes_Ingredients
 --FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
@@ -143,7 +146,7 @@ FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 --STORED PROCEDURES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
- Stored Procedures Recipes
+ --Stored Procedures CookingGrams
  
  -- Category
 GO
