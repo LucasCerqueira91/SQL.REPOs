@@ -84,8 +84,8 @@ ID INT PRIMARY KEY IDENTITY(1,1),
 Name_U NVARCHAR (50) NOT NULL,
 Email_U NVARCHAR(50) NOT NULL,
 Password_U NVARCHAR(2000) NOT NULL,
-IsBlocked_U NCHAR (1) NOT NULL,
-Admin_U NCHAR(1) NOT NULL);
+IsBlocked_U BIT NOT NULL,
+Admin_U BIT NOT NULL);
 
 Ingredients_Description, FKIngredient_ID, FkIngredients_Unit_Measurement_ID
 
