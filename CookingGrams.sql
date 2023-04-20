@@ -146,16 +146,52 @@ FOREIGN KEY (FkRecipe_ID) REFERENCES Recipes(ID);
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 --STORED PROCEDURES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
- --Stored Procedures CookingGrams
- 
+USE CookingGrams
+
+--Stored Procedures CookingGrams
+ DROP PROCEDURE AddCategory;
+ DROP PROCEDURE AddIngredient;
+ DROP PROCEDURE AddIngredientsDescription;
+ DROP PROCEDURE AddIngredientUnitMeasurement;
+ DROP PROCEDURE DeleteCategory;
+  DROP PROCEDURE DeleteIngredient;
+ DROP PROCEDURE DeleteIngredientsDescription;
+ DROP PROCEDURE GetAllByUser;
+ DROP PROCEDURE GetAllCategory;
+ DROP PROCEDURE GetAllIngredient;
+  DROP PROCEDURE GetAllIngredientDescription;
+ DROP PROCEDURE GetAllIngredientDescriptionByIngredient;
+ DROP PROCEDURE GetAllIngredientDescriptionByIngredientUnitMeasurement;
+ DROP PROCEDURE GetAllIngredientUnitMeasurement;
+ DROP PROCEDURE GetAllRating;
+  DROP PROCEDURE GetCategoryById;
+ DROP PROCEDURE GetIngredientById;
+ DROP PROCEDURE GetIngredientDescriptionById;
+ DROP PROCEDURE GetIngredientUnitMeasurementById;
+ DROP PROCEDURE GetRatingById;
+   DROP PROCEDURE UpdateCategory;
+ DROP PROCEDURE UpdateIngredient;
+ DROP PROCEDURE UpdateIngredientsDescription;
+ DROP PROCEDURE UpdateIngredientUnitMeasurement;
+ DROP PROCEDURE AddRating;
+  DROP PROCEDURE DeleteIngredientUnitMeasurement;
+   DROP PROCEDURE DeleteRating;
+    DROP PROCEDURE GetAllRatingByRecipe;
+	 DROP PROCEDURE GetAllRatingByUser;
+	  DROP PROCEDURE GetAllRecipeFavorite;
+	   DROP PROCEDURE GetAllRecipeFavoriteByCategory;
+	    DROP PROCEDURE GetAllRecipeFavoriteByRecipe;
+		 DROP PROCEDURE GetAllRecipeFavoriteByUser;
+		  DROP PROCEDURE GetRecipeFavoriteById;
+		   DROP PROCEDURE UpdateRating;
  -- Category
 GO
-CREATE PROCEDURE GetCategoryById (@Id INT)
+CREATE PROCEDURE GetCategoryById (@GetCategoryById INT)
 AS
 BEGIN
 
 SELECT * FROM Categories
-WHERE ID = @Id
+WHERE ID = @GetCategoryById
 
 END
 
@@ -180,45 +216,45 @@ END
 
 
 GO
-CREATE PROCEDURE AddCategory (@Title NVARCHAR(40), @IdRecipe INT)
+CREATE PROCEDURE AddCategory (@Title NVARCHAR(50), @RecipeId INT)
 AS
 BEGIN
 
 INSERT INTO Categories 
-("Title_C") --, "FkRecipe_ID") 
+("Title_C" , "FkRecipe_ID") 
 VALUES 
-(@Title)--, @IdRecipe)
+(@Title, @RecipeId)
 
 END
 
 GO
-CREATE PROCEDURE UpdateCategory (@Title NVARCHAR(40), @IdRecipe INT)
+CREATE PROCEDURE UpdateCategory (@UpdateCategoryId INT , @Title NVARCHAR(50), @RecipeId INT)
 AS
 BEGIN
 
-UPDATE Categories SET "Title_C" = @Title --, "FkRecipe_ID" = @IdRecipe
-WHERE ID = @Id
+UPDATE Categories SET "Title_C" = @Title , "FkRecipe_ID" = @RecipeId
+WHERE ID = @UpdateCategoryId
 
 END
-
+DROP PROCEDURE DeleteCategory;
 GO
-CREATE PROCEDURE DeleteCategory (@Id INT)
+CREATE PROCEDURE DeleteCategory (@DeleteCategoryId INT)
 AS
 BEGIN
 
 DELETE FROM Categories
-WHERE ID = @Id
+WHERE ID = @DeleteCategoryId
 
 END
 ----------------------------------------------------------------------------------------------------------------------------------
 -- Ingredient
 GO
-CREATE PROCEDURE GetIngredientById (@Id INT)
+CREATE PROCEDURE GetIngredientById (@GetIngredientById INT)
 AS
 BEGIN
 
 SELECT * FROM Ingredients
-WHERE ID = @Id
+WHERE ID = @GetIngredientById
 
 END
 
@@ -258,22 +294,22 @@ VALUES
 END
 
 GO
-CREATE PROCEDURE UpdateIngredient (@Name NVARCHAR(50))--, @Quantity NVARCHAR(50), @Unit NVARCHAR(50), @Description NVARCHAR(800))
+CREATE PROCEDURE UpdateIngredient (@UpdateIngredientId INT, @Name NVARCHAR(50))--, @Quantity NVARCHAR(50), @Unit NVARCHAR(50), @Description NVARCHAR(800))
 AS
 BEGIN
 
 UPDATE Ingredients SET "Name_I" = @Name --, "Quantity_I" = @Quantity, "Unit_I" = @Unit, "Description_I" = @Description
-WHERE ID = @Id
+WHERE ID = @UpdateIngredientId
 
 END
 
 GO
-CREATE PROCEDURE DeleteIngredient (@Id INT)
+CREATE PROCEDURE DeleteIngredient (@DeleteIngredientId INT)
 AS
 BEGIN
 
 DELETE FROM Ingredients
-WHERE ID = @Id
+WHERE ID = @DeleteIngredientId
 
 END
 
@@ -300,56 +336,59 @@ SELECT * FROM Ingredients_Description
 END
 
 --         List<IngredientDescription> GetAllByIngredient(int ingredientId);
+DROP PROCEDURE GetAllIngredientDescriptionByIngredient;
 GO
-CREATE PROCEDURE GetAllIngredientDescriptionByIngredient (@Id INT)
+CREATE PROCEDURE GetAllIngredientDescriptionByIngredient (@GetAllIngredientDescriptionByIngredientId INT)
 AS
 BEGIN
 SELECT * FROM Ingredients_Description
 LEFT JOIN Ingredients
 ON Ingredients.ID = Ingredients_Description.FKIngredient_ID
-WHERE FKIngredient_ID = @Id
+WHERE FKIngredient_ID = @GetAllIngredientDescriptionByIngredientId
 
 END
---         List<IngredientDescription> GetAllByIngredientUnitMeasurement(int unitMeasurementId);
+--         List<IngredientDescription> GetAllByIngredientUnitMeasurement(int unitMeasurementId
+DROP PROCEDURE GetAllIngredientDescriptionByIngredientUnitMeasurement;
 GO
-CREATE PROCEDURE GetAllIngredientDescriptionByIngredientUnitMeasurement (@Id INT)
+CREATE PROCEDURE GetAllIngredientDescriptionByIngredientUnitMeasurement (@GetAllIngredientDescriptionByIngredientUnitMeasurementId INT)
 AS
 BEGIN
 SELECT * FROM Ingredients_Description
-LEFT JOIN IngredientUnitMeasurement
-ON IngredientUnitMeasurement.ID = Ingredients_Description.FkIngredients_Unit_Measurement_ID
-WHERE FkIngredients_Unit_Measurement_ID = @Id
+LEFT JOIN Ingredients_Unit_Measurement
+ON Ingredients_Unit_Measurement.ID = Ingredients_Description.FkIngredients_Unit_Measurement_ID
+WHERE FkIngredients_Unit_Measurement_ID = @GetAllIngredientDescriptionByIngredientUnitMeasurementId
 
 END
 --         IngredientDescription Add(IngredientDescription ingredientDescription);
 GO
-CREATE PROCEDURE AddIngredientsDescription (@IngredientDescription NVARCHAR(50), @IdIngredient INT, @IdIngredientUnitMeasurement INT)
+CREATE PROCEDURE AddIngredientsDescription (@IngredientDescription NVARCHAR(50), @IngredientId INT, @RecipeId INT, @IngredientUnitMeasurementId INT)
 AS
 BEGIN
 
 INSERT INTO Ingredients_Description 
-("Description_IDesc", "FKIngredient_ID", "FkIngredients_Unit_Measurement_ID") 
+("Description_Ig", "FKIngredient_ID", "FkRecipe_ID", "FkIngredients_Unit_Measurement_ID") 
 VALUES 
-(@IngredientDescription, @IdIngredient, @IdIngredientUnitMeasurement)
+(@IngredientDescription, @IngredientId, @RecipeId, @IngredientUnitMeasurementId)
 
 END
 --         IngredientDescription Update(IngredientDescription ingredientDescription);
 GO
-CREATE PROCEDURE UpdateIngredientsDescription (@IngredientDescription NVARCHAR(50), @IdIngredient INT, @IdIngredientUnitMeasurement INT)
+CREATE PROCEDURE UpdateIngredientsDescription (@UpdateIngredientsDescriptionId INT , @IngredientDescription NVARCHAR(50), @IngredientId INT, @RecipeId INT, @IngredientUnitMeasurementId INT)
 AS
 BEGIN
-UPDATE Ingredients_Description SET "Description_IDesc" = @IngredientDescription, "FKIngredient_ID" = @IdIngredient, "FkIngredients_Unit_Measurement_ID" = @IdIngredientUnitMeasurement
-WHERE ID = @Id
+UPDATE Ingredients_Description SET "Description_Ig" = @IngredientDescription, "FKIngredient_ID" = @IngredientId, "FkIngredients_Unit_Measurement_ID" = @IngredientUnitMeasurementId
+WHERE ID = @UpdateIngredientsDescriptionId
 END
 
 --         void Delete(int id);
+DROP PROCEDURE DeleteIngredientsDescription;
 GO
-CREATE PROCEDURE DeleteIngredientsDescription (@Id INT)
+CREATE PROCEDURE DeleteIngredientsDescription (@DeleteIngredientsDescriptionId INT)
 AS
 BEGIN
 
 DELETE FROM Ingredients_Description
-WHERE ID = @Id
+WHERE ID = @DeleteIngredientsDescriptionId
 
 END
 
@@ -357,12 +396,12 @@ END
     -- IngredientUnitMeasurement 
     --GetById(int id);
 GO
-CREATE PROCEDURE GetIngredientUnitMeasurementById (@Id INT)
+CREATE PROCEDURE GetIngredientUnitMeasurementById (@GetIngredientUnitMeasurementById INT)
 AS
 BEGIN
 
 SELECT * FROM Ingredients_Unit_Measurement
-WHERE ID = @Id
+WHERE ID = @GetIngredientUnitMeasurementById
 
 END
     --     List<IngredientUnitMeasurement> GetAll();
@@ -376,45 +415,51 @@ SELECT * FROM Ingredients_Unit_Measurement
 END
 
     --     IngredientUnitMeasurement Add(IngredientUnitMeasurement ingredientUnitMeasurement);
+
+	
 GO
-CREATE PROCEDURE AddIngredientUnitMeasurement (@MeasurementUnit NVARCHAR(15))
+CREATE PROCEDURE AddIngredientUnitMeasurement (@Quantity INT, @MeasurementUnit NVARCHAR(15))
 AS
 BEGIN
 
 INSERT INTO Ingredients_Unit_Measurement 
-("Measurement_Unit") 
+("Quantity_", "Measurement_Unit") 
 VALUES 
-(@MeasurementUnit)
+(@Quantity, @MeasurementUnit)
 
 END
     --     IngredientUnitMeasurement Update(IngredientUnitMeasurement ingredientUnitMeasurement);
+DROP PROCEDURE UpdateIngredientUnitMeasurement;
+
 GO
-CREATE PROCEDURE UpdateIngredientUnitMeasurement (@MeasurementUnit NVARCHAR(15))
+CREATE PROCEDURE UpdateIngredientUnitMeasurement (@UpdateIngredientUnitMeasurementId INT, @Quantity INT, @MeasurementUnit NVARCHAR(15))
 AS
 BEGIN
-UPDATE Ingredients_Unit_Measurement SET "Measurement_Unit" = @MeasurementUnit
-WHERE ID = @Id
+    UPDATE Ingredients_Unit_Measurement 
+    SET "Measurement_Unit" = @MeasurementUnit, "Quantity_" = @Quantity
+    WHERE ID = @UpdateIngredientUnitMeasurementId
 END
     --     void Delete(int id);
+	DROP PROCEDURE DeleteIngredientUnitMeasurement;
 GO
-CREATE PROCEDURE DeleteIngredientUnitMeasurement (@Id INT)
+CREATE PROCEDURE DeleteIngredientUnitMeasurement (@DeleteIngredientUnitMeasurementId INT)
 AS
 BEGIN
 
 DELETE FROM Ingredients_Unit_Measurement
-WHERE ID = @Id
+WHERE ID = @DeleteIngredientUnitMeasurementId
 
 END
 ---------------------------------------------------------------------------------------------------------------------------------
 --Rating
 
 GO
-CREATE PROCEDURE GetRatingById (@Id INT)
+CREATE PROCEDURE GetRatingById (@GetRatingById INT)
 AS
 BEGIN
 
 SELECT * FROM Ratings
-WHERE ID = @Id
+WHERE ID = @GetRatingById
 
 END
 
@@ -426,46 +471,65 @@ BEGIN
 SELECT * FROM Ratings
 
 END
-
+DROP PROCEDURE GetAllRatingByUser;
 GO
-CREATE PROCEDURE GetAllRatingByUser (@Id INT)
+CREATE PROCEDURE GetAllRatingByUser (@GetAllRatingByUserId INT)
 AS
 BEGIN
-
-SELECT * FROM Ratings
-WHERE FkUser_ID = @Id
-
+    SELECT Ratings.Id, Ratings.RatingValue, Ratings.Comment, Ratings.FkRecipe_ID, Users.Name_U as UserName
+    FROM Ratings 
+    LEFT JOIN Users  ON Ratings.FkUser_ID = Users.ID
+    WHERE Ratings.FkUser_ID = @GetAllRatingByUserId
 END
 
 GO
-CREATE PROCEDURE AddRating (@Ratings NCHAR(1), @Comment NVARCHAR(100), @IdUser INT)
+CREATE PROCEDURE GetAllRatingByRecipe (@GetAllRatingByRecipeId INT)
+AS
+BEGIN
+    SELECT Ratings. *, Users. *
+    FROM Ratings
+    LEFT JOIN Users ON Ratings.FkUser_ID = Users.Id
+    WHERE Ratings.FkRecipe_ID = @GetAllRatingByRecipeId
+END
+
+--CREATE PROCEDURE GetAllRatingByUser (@Id INT)
+--AS
+--BEGIN
+
+--SELECT * FROM Ratings
+--WHERE FkUser_ID = @Id
+
+--END
+
+GO
+CREATE PROCEDURE AddRating (@RatingValue INT, @Comment VARCHAR(255), @UserId INT, @RecipeId INT)
 AS
 BEGIN
 
 INSERT INTO Ratings 
-("Rating_U", "Comment_U", "FkUser_ID") 
+("RatingValue", "Comment", "FkUser_ID", "FkRecipe_ID") 
 VALUES 
-(@Ratings, @Comment, @IdUser)
+(@RatingValue, @Comment, @UserId, @RecipeId)
 
 END
 
 GO
-CREATE PROCEDURE UpdateRating (@Ratings NCHAR(1), @Comment NVARCHAR(100), @IdUser INT)
+CREATE PROCEDURE UpdateRating (@UpdateRatingId INT, @RatingValue INT, @Comment VARCHAR(255), @UserId INT, @RecipeId INT)
 AS
 BEGIN
 
-UPDATE Ratings SET "Rating_U" = @Ratings, "Comment_U" = @Comment, "FkUser_ID" = @IdUser
-WHERE ID = @Id
+UPDATE Ratings SET "RatingValue" = @RatingValue, "Comment" = @Comment, "FkUser_ID" = @UserId
+WHERE ID = @UpdateRatingId
 
 END
 
 GO
-CREATE PROCEDURE DeleteRating (@Id INT)
+CREATE PROCEDURE DeleteRating (@DeleteRatingId INT)
 AS
 BEGIN
 
 DELETE FROM Ratings
-WHERE ID = @Id
+WHERE ID = @DeleteRatingId
 
 END
 
@@ -473,12 +537,12 @@ END
 --Recipe Favorite
 
 GO
-CREATE PROCEDURE GetRecipeFavoriteById (@Id INT)
+CREATE PROCEDURE GetRecipeFavoriteById (@GetRecipeFavoriteById INT)
 AS
 BEGIN
 
-SELECT * FROM Favorite_Recipe
-WHERE ID = @Id
+SELECT * FROM Recipes_Favorite
+WHERE ID = @GetRecipeFavoriteById
 
 END
 
@@ -487,78 +551,92 @@ CREATE PROCEDURE GetAllRecipeFavorite
 AS
 BEGIN
 
-SELECT * FROM Favorite_Recipe
+SELECT * FROM Recipes_Favorite
 
 END
 
 GO
-CREATE PROCEDURE GetAllRecipeFavoriteByUser (@Id INT)
+CREATE PROCEDURE GetAllRecipeFavoriteByUser (@GetAllRecipeFavoriteByUserId INT)
 AS
 BEGIN
-SELECT * FROM Favorite_Recipe
-LEFT JOIN Users
-ON Users.ID = Favorite_Recipe.FkUser_ID
+    SELECT Recipes. * 
+    FROM Recipes 
+    INNER JOIN Recipes_Favorite ON Recipes.Id = Recipes_Favorite.FkRecipe_ID
+    WHERE Recipes_Favorite.FkUser_ID = @GetAllRecipeFavoriteByUserId;
+END
 
-WHERE FkUser_ID = @Id
+--GO
+--CREATE PROCEDURE GetAllRecipeFavoriteByUser (@Id INT)
+--AS
+--BEGIN
+--SELECT * FROM Favorite_Recipe
+--LEFT JOIN Users
+--ON Users.ID = Favorite_Recipe.FkUser_ID
 
+--WHERE FkUser_ID = @Id
+
+--END
+
+GO
+CREATE PROCEDURE GetAllRecipeFavoriteByRecipe (@GetAllRecipeFavoriteByRecipeId INT)
+AS
+BEGIN
+
+    SELECT Recipes. * 
+    FROM Recipes 
+    INNER JOIN Recipes_Favorite ON Recipes.Id = Recipes_Favorite.FkRecipe_ID
+    WHERE Recipes_Favorite.FkRecipe_ID = @GetAllRecipeFavoriteByRecipeId;
 END
 
 GO
-CREATE PROCEDURE GetAllRecipeFavoriteByRecipe (@Id INT)
+CREATE PROCEDURE GetAllRecipeFavoriteByCategory (@GetAllRecipeFavoriteByCategoryId INT)
 AS
 BEGIN
-
-SELECT * FROM Favorite_Recipe
-LEFT JOIN Recipes
-ON Recipes.ID = Favorite_Recipe.FkRecipe_ID
-WHERE FkRecipe_ID = @Id
-
-
+    SELECT Recipes. * 
+    FROM Recipes 
+    INNER JOIN Recipes_Favorite ON Recipes.Id = Recipes_Favorite.FkRecipe_ID
+    WHERE Recipes_Favorite.FkCategory_ID = @GetAllRecipeFavoriteByCategoryId;
 END
 
 GO
-CREATE PROCEDURE GetAllRecipeFavoriteByCategory (@Id INT)
+CREATE PROCEDURE AddRecipeToFavorites (@UserId INT, @RecipeId INT, @CategoryId INT)
 AS
 BEGIN
-
-SELECT * FROM Favorite_Recipe
-LEFT JOIN Categories
-ON Categories.ID = Favorite_Recipe.FkCategory_ID
-WHERE FkCategory_ID = @Id
-
-
+    IF NOT EXISTS (SELECT * FROM Recipes_Favorite WHERE FkUser_ID = @UserId AND FkRecipe_ID = @RecipeId AND FkCategory_ID = @CategoryId)
+    BEGIN
+        INSERT INTO Recipes_Favorite (FkUser_ID, FkRecipe_ID, FkCategory_ID ) VALUES (@UserId, @RecipeId,@CategoryId)
+    END
 END
+--GO
+--CREATE PROCEDURE AddRecipeFavorite (@IdRecipe INT, @IdUser INT, @IdCategory INT)
+--AS
+--BEGIN
+
+--INSERT INTO Favorite_Recipe 
+--("FkUser_ID", "FkRecipe_ID", "FkCategory_ID")
+
+--VALUES 
+--(@IdRecipe, @IdUser, @IdCategory)
+
+--END
+
+--GO
+--CREATE PROCEDURE UpdateRecipeFavorite (@IdRecipe INT, @IdUser INT, @IdCategory INT)
+--AS
+--BEGIN
+
+--UPDATE Favorite_Recipe SET "FkUser_ID" = @IdRecipe, "FkRecipe_ID" = @IdUser, "FkCategory_ID" = @IdCategory
+--WHERE ID = @Id
+
+--END
 
 GO
-CREATE PROCEDURE AddRecipeFavorite (@IdRecipe INT, @IdUser INT, @IdCategory INT)
+CREATE PROCEDURE DeleteRecipeFavorite (@UserId INT, @RecipeId INT, @CategoryId INT)
 AS
 BEGIN
 
-INSERT INTO Favorite_Recipe 
-("FkUser_ID", "FkRecipe_ID", "FkCategory_ID")
-
-VALUES 
-(@IdRecipe, @IdUser, @IdCategory)
-
-END
-
-GO
-CREATE PROCEDURE UpdateRecipeFavorite (@IdRecipe INT, @IdUser INT, @IdCategory INT)
-AS
-BEGIN
-
-UPDATE Favorite_Recipe SET "FkUser_ID" = @IdRecipe, "FkRecipe_ID" = @IdUser, "FkCategory_ID" = @IdCategory
-WHERE ID = @Id
-
-END
-
-GO
-CREATE PROCEDURE DeleteRecipeFavorite (@Id INT)
-AS
-BEGIN
-
-DELETE FROM Favorite_Recipe
-WHERE ID = @Id
+DELETE FROM Recipes_Favorite
+WHERE FkUser_ID = @UserId AND FkRecipe_ID = @RecipeId AND  FkCategory_ID = @CategoryId
 
 END
 --------------------------------------------------------------------------------------------------------------------------------------
