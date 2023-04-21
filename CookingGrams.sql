@@ -316,13 +316,16 @@ END
 ---------------------------------------------------------------------------------------------------------------------------------
 --    IngredientDescription 
 --GetById(int id);
+
+DROP PROCEDURE GetIngredientDescriptionById
+
 GO
-CREATE PROCEDURE GetIngredientDescriptionById (@Id INT)
+CREATE PROCEDURE GetIngredientDescriptionById (@GetIngredientDescriptionById INT)
 AS
 BEGIN
 
 SELECT * FROM Ingredients_Description
-WHERE ID = @Id
+WHERE ID = @GetIngredientDescriptionById
 
 END
 --         List<IngredientDescription> GetAll();
@@ -862,3 +865,4 @@ DELETE FROM Users
 WHERE ID = @Id
 
 END
+
