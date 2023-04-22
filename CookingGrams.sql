@@ -767,6 +767,18 @@ WHERE FkRecipe_ID = @GetAllRecipeByRatingId
 END
 
 GO
+CREATE PROCEDURE GetAllRecipeByIngredientsDescription (@IngredientDescription NVARCHAR(50))
+AS
+BEGIN
+    SELECT Recipes.*
+    FROM Recipes
+    INNER JOIN Ingredients_Description ON Recipes.Id = Ingredients_Description.FkRecipe_ID
+    INNER JOIN Ingredients ON Ingredients_Description.FkIngredient_ID = Ingredients.ID
+    WHERE Ingredients.Name_I LIKE '%' + @IngredientDescription + '%'
+END
+
+
+GO
 CREATE PROCEDURE GetAllRecipeByUser (@GetAllRecipeByUserId INT)
 AS
 BEGIN
@@ -841,6 +853,26 @@ BEGIN
 
 SELECT * FROM Users
 
+END
+
+GO
+CREATE PROCEDURE GetAllUserByRating (@UserByRatingId INT)
+AS
+BEGIN
+    SELECT Users.*
+    FROM Users
+    INNER JOIN Ratings ON Users.ID = Ratings.FkUser_ID
+    WHERE Ratings.FkUser_ID = @UserByRatingId
+END
+
+GO
+CREATE PROCEDURE GetAllUserByRecipeFavorite (@GetAllUserByRecipeFavoriteId INT)
+AS
+BEGIN
+    SELECT Users.*
+    FROM Users
+    INNER JOIN Recipes_Favorite ON Users.ID = Recipes_Favorite.FkUser_ID
+    WHERE Recipes_Favorite.FkUser_ID = @GetAllUserByRecipeFavoriteId
 END
 
 
