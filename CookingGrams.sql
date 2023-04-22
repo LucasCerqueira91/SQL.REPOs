@@ -515,13 +515,14 @@ VALUES
 (@RatingValue, @Comment, @UserId, @RecipeId)
 
 END
+sp_helptext 'DeleteRecipe'
+DROP PROCEDURE DeleteRecipe
 
 GO
 CREATE PROCEDURE UpdateRating (@UpdateRatingId INT, @RatingValue INT, @Comment VARCHAR(255), @UserId INT, @RecipeId INT)
 AS
 BEGIN
-
-UPDATE Ratings SET "RatingValue" = @RatingValue, "Comment" = @Comment, "FkUser_ID" = @UserId
+UPDATE Ratings SET "RatingValue" = @RatingValue, "Comment" = @Comment, "FkUser_ID" = @UserId, "FkRecipe_ID" = @RecipeId
 WHERE ID = @UpdateRatingId
 
 END
@@ -713,13 +714,22 @@ END
 ---------------------------------------------------------------------------------------------------------------------------------------
 --Recipe
 
+DROP PROCEDURE GetRecipeById
+DROP PROCEDURE GetAllRecipe
+DROP PROCEDURE GetAllRecipeByCategory
+DROP PROCEDURE GetAllRecipeByRating
+DROP PROCEDURE GetAllRecipeByUser
+DROP PROCEDURE AddRecipe
+DROP PROCEDURE UpdateRecipe 
+DROP PROCEDURE DeleteRecipe
+
 GO
-CREATE PROCEDURE GetRecipeById (@Id INT)
+CREATE PROCEDURE GetRecipeById (@GetRecipeById INT)
 AS
 BEGIN
 
 SELECT * FROM Recipes
-WHERE ID = @Id
+WHERE ID = @GetRecipeById
 
 END
 
@@ -733,94 +743,94 @@ SELECT * FROM Recipes
 END
 
 GO
-CREATE PROCEDURE GetAllRecipeByCategory (@Id INT)
+CREATE PROCEDURE GetAllRecipeByCategory (@GetAllRecipeByCategoryId INT)
 AS
 BEGIN
 
 SELECT * FROM Recipes
-WHERE FkCategory_ID = @Id
-
+INNER JOIN Categories
+ON Recipes.ID = Categories.FkRecipe_ID
+WHERE FkRecipe_ID = @GetAllRecipeByCategoryId
 END
 
 
 GO
-CREATE PROCEDURE GetAllRecipeByRating (@Id INT)
+CREATE PROCEDURE GetAllRecipeByRating (@GetAllRecipeByRatingId INT)
 AS
 BEGIN
 
 SELECT * FROM Recipes
-WHERE FkRating_ID = @Id
-
-SELECT * FROM Recipes
-LEFT JOIN Ratings
+INNER JOIN Ratings
 ON Recipes.ID = Ratings.FkRecipe_ID
-WHERE FkRecipe_ID = @Id
+WHERE FkRecipe_ID = @GetAllRecipeByRatingId
 
 END
 
 GO
-CREATE PROCEDURE GetAllRecipeByUser (@Id INT)
+CREATE PROCEDURE GetAllRecipeByUser (@GetAllRecipeByUserId INT)
 AS
 BEGIN
 
 SELECT * FROM Recipes
-WHERE FkUser_ID = @Id
+INNER JOIN Users
+ON Recipes.ID = Recipes.FkUser_ID
+WHERE FkUser_ID = @GetAllRecipeByUserId
 
 END
 
+--GO
+--CREATE PROCEDURE GetAllRecipeByCategory (@Id INT)
+--AS
+--BEGIN
+
+--SELECT * FROM Recipes
+--WHERE FkCategory_ID = @Id
+
+--END
+
 GO
-CREATE PROCEDURE GetAllRecipeByCategory (@Id INT)
-AS
-BEGIN
-
-SELECT * FROM Recipes
-WHERE FkCategory_ID = @Id
-
-END
-
-GO
-CREATE PROCEDURE AddRecipe (@Title NVARCHAR(100), @Description NVARCHAR(200), @PreparationMethod NVARCHAR(200), @PreparationTime INT, @IdUser INT, @IdCategory INT, @IdIngredientDescription INT, @IdRating INT)
+CREATE PROCEDURE AddRecipe (@Title NVARCHAR(100), @Description NVARCHAR(200), @PreparationMethod NVARCHAR(200), @PreparationTime INT, @UserId INT)
 AS
 BEGIN
 
 INSERT INTO Recipes 
-("Title_R", "Description_R", "PreparationMethod_R", "PreparationTime", "FkUser_ID", "FkCategory_ID", "FkIngredients_Description_ID","FkRating_ID") 
+("Title_R", "Description_R", "PreparationMethod_R", "PreparationTime", "FkUser_ID") 
 VALUES 
-(@Title, @Description, @PreparationMethod, @PreparationTime, @UserId, @IdCategory, @IdIngredientDescription, @IdRating)
+(@Title, @Description, @PreparationMethod, @PreparationTime, @UserId)
 
 END
 
 GO
-CREATE PROCEDURE UpdateRecipe (@Title NVARCHAR(100), @Description NVARCHAR(200), @PreparationMethod NVARCHAR(200), @PreparationTime INT, @UserId INT, @IdCategory INT, @IdIngredientDescription INT, @IdRating INT)
+CREATE PROCEDURE UpdateRecipe (@UpdateRecipeId INT, @Title NVARCHAR(100), @Description NVARCHAR(200), @PreparationMethod NVARCHAR(200), @PreparationTime INT, @UserId INT)
 AS
 BEGIN
 
-UPDATE Recipes SET "Title_R" = @Title, "Description_R" = @Description, "PreparationMethod_R" = @PreparationMethod, "PreparationTime" = @PreparationTime, "FkUser_ID" = @IdUser, "FkCategory_ID" = @IdCategory, "FkIngredients_Description_ID" = @IdIngredientDescription, "FkRating_ID" = @IdRating
-WHERE ID = @Id
+UPDATE Recipes SET "Title_R" = @Title, "Description_R" = @Description, "PreparationMethod_R" = @PreparationMethod, "PreparationTime" = @PreparationTime, "FkUser_ID" = @UserId
+WHERE ID = @UpdateRecipeId
 
 END
 
 GO
-CREATE PROCEDURE DeleteRecipe (@Id INT)
+CREATE PROCEDURE DeleteRecipe (@DeleteRecipeId INT)
 AS
 BEGIN
 
 DELETE FROM Recipes
-WHERE ID = @Id
+WHERE ID = @DeleteRecipeId
 
 END
 
 -------------------------------------------------------------------------------------------------------------------------------------
-
+sp_helptext 'GetUserById'
 --User
 
 GO
-CREATE PROCEDURE GetUserById (@Id INT)
+CREATE PROCEDURE GetUserById (@GetUserById INT)
 AS
 BEGIN
 
 SELECT * FROM Users
-WHERE ID = @Id
+WHERE ID = @GetUserById
 
 END
 
@@ -835,7 +845,7 @@ END
 
 
 GO
-CREATE PROCEDURE AddUser (@Name NVARCHAR(50), @Email NVARCHAR(50) ,@Password NVARCHAR(2000), @IsBlocked NCHAR(1), @IsAdmin NCHAR(1))
+CREATE PROCEDURE AddUser (@Name NVARCHAR(50), @Email NVARCHAR(50) ,@Password NVARCHAR(2000), @IsBlocked BIT , @IsAdmin BIT)
 AS
 BEGIN
 
@@ -847,22 +857,22 @@ VALUES
 END
 
 GO
-CREATE PROCEDURE UpdateUser (@Name NVARCHAR(50), @Email NVARCHAR(50) ,@Password NVARCHAR(2000), @IsBlocked NCHAR(1), @IsAdmin NCHAR(1))
+CREATE PROCEDURE UpdateUser (@UpdateUserId INT,@Name NVARCHAR(50), @Email NVARCHAR(50) , @Password NVARCHAR(2000), @IsBlocked BIT, @IsAdmin BIT)  
 AS
 BEGIN
 
 UPDATE Users SET "Name_U" = @Name, "Email_U" = @Email, "Password_U" = @Password, "IsBlocked_U" = @IsBlocked, "Admin_U" = @IsAdmin
-WHERE ID = @Id
+WHERE ID = @UpdateUserId
 
 END
 
 GO
-CREATE PROCEDURE DeleteUser (@Id INT)
+CREATE PROCEDURE DeleteUser (@DeleteUserId INT)  
 AS
 BEGIN
 
 DELETE FROM Users
-WHERE ID = @Id
+WHERE ID = @DeleteUserId
 
 END
 
